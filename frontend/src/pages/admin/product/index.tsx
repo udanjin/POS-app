@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../../../Components/Sidebar";
 import NavbarTop from "../../../Components/NavbarTop";
 import axiosInstance from "../../../axiosConfig";
-import { useParams } from "react-router-dom";
+
 import Pagination from "../../../Components/Pagination";
 
 interface MenuDetails {
