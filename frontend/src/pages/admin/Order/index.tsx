@@ -21,7 +21,7 @@ const index = () => {
   const [orders, setOrders] = useState([]);
   const [order, setOrder] = useState<order | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [itemsPerPage] = useState(10);
   // const [selectedId, setSelectedId] = useState(null);
   //   const [orderId, setOrderId] = useState();
   const [isOpen, setIsOpen] = useState(false);

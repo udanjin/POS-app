@@ -28,7 +28,7 @@ const index = () => {
   const [fail, setFail] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [itemsPerPage] = useState(10);
 
   const handlePageChange = (newPageNumber: number) => {
     setCurrentPage(newPageNumber);

@@ -36,7 +36,6 @@ function App() {
         
       </Routes>
     </Router>
-    // <RouterProvider router={routers} />
   );
 }
 

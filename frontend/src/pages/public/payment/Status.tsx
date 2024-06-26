@@ -5,7 +5,7 @@ import axiosInstance from "../../../axiosConfig";
 
 
 const Status = () => {
-  const [params, setParams] = useSearchParams();
+  const [params] = useSearchParams();
   const navigate = useNavigate();
   const statusCode = params.get("status_code");
   const orderId = params.get("order_id");

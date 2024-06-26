@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import TopNavbar from "../../../Components/TopNavbar";
-import CartCards from "../../../Components/CartCards";
-// import { CartItem } from "../home/CardDetails";
 import axiosInstance from "../../../axiosConfig";
 import { useNavigate } from "react-router-dom";
 
@@ -20,13 +18,13 @@ import { useNavigate } from "react-router-dom";
 // }
 
 enum CalculateAmountType {
-  TAX = 'tax',
-  PRICE = 'Price'
+  TAX = "tax",
+  PRICE = "Price",
 }
 
 interface Bill {
   orderItems: {
-    id:number;
+    id: number;
     menuId: string;
     note: string;
     price: string;
@@ -43,7 +41,7 @@ interface Person {
 interface PersonOrder {
   personName: string;
   orders: {
-    id:number;
+    id: number;
     menuId: string;
     note: string;
     price: string;
@@ -53,9 +51,9 @@ interface PersonOrder {
 }
 
 interface ProductSelectedCount {
-  id : number;
-  menuId : string;
-  count : number;
+  id: number;
+  menuId: string;
+  count: number;
 }
 
 const index = () => {
@@ -66,7 +64,9 @@ const index = () => {
   const [people, setPeople] = useState<Person[]>([]);
   const [personOrder, setPersonOrder] = useState<PersonOrder[]>([]);
 
-  const [productSelectedCount, setProductSelectedCount] = useState<ProductSelectedCount[]>([]);
+  const [productSelectedCount, setProductSelectedCount] = useState<
+    ProductSelectedCount[]
+  >([]);
 
   const [newPersonName, setNewPersonName] = useState("");
   const navigate = useNavigate();
@@ -112,12 +112,12 @@ const index = () => {
     if (bill && bill.orderItems.length > 0) {
       const orderItems = bill.orderItems;
 
-      const newCount : ProductSelectedCount[] = []
+      const newCount: ProductSelectedCount[] = [];
       orderItems.forEach((el) => {
         newCount.push({
-          id : el.id,
-          menuId : el.menuId,
-          count : 0
+          id: el.id,
+          menuId: el.menuId,
+          count: 0,
         });
       });
       setProductSelectedCount(newCount);
@@ -129,84 +129,83 @@ const index = () => {
   // }, [productSelectedCount])
 
   useEffect(() => {
-    if (personOrder.length === 0) return
-    console.log(personOrder)
-  }, [personOrder])
+    if (personOrder.length === 0) return;
+    console.log(personOrder);
+  }, [personOrder]);
 
-  const calculatedAmount = (id : number, type : string) : number => {
+  const calculatedAmount = (id: number, type: string): number => {
     if (!bill || productSelectedCount.length === 0) return 0;
-    
-    const productCountItem = productSelectedCount.find((e)=>e.id === id);
-    const orderItem = bill.orderItems.find((e)=>e.id === id);
 
-    const count : number = productCountItem ? productCountItem.count : 0;
+    const productCountItem = productSelectedCount.find((e) => e.id === id);
+    const orderItem = bill.orderItems.find((e) => e.id === id);
 
-    let amount : number = 0;
+    const count: number = productCountItem ? productCountItem.count : 0;
+
+    let amount: number = 0;
 
     if (type === CalculateAmountType.PRICE) {
-      amount = orderItem ? parseFloat(orderItem.price) : 0
+      amount = orderItem ? parseFloat(orderItem.price) : 0;
     }
-    
+
     if (type === CalculateAmountType.TAX) {
-      amount = orderItem ? orderItem.tax : 0
+      amount = orderItem ? orderItem.tax : 0;
     }
 
-    const totalPrice = amount / count 
-    
-    return totalPrice;
-  }
+    const totalPrice = amount / count;
 
-  const calculateTax = (orderIds : number[]) : number => {
+    return totalPrice;
+  };
+
+  const calculateTax = (orderIds: number[]): number => {
     if (!bill || productSelectedCount.length === 0) return 0;
 
-    const matchingItems = bill.orderItems.filter((item) => orderIds.includes(item.id));
+    const matchingItems = bill.orderItems.filter((item) =>
+      orderIds.includes(item.id)
+    );
 
-    let totalTax : number = 0;
+    let totalTax: number = 0;
     matchingItems.forEach((e) => {
       totalTax += calculatedAmount(e.id, CalculateAmountType.TAX);
     });
 
-    return totalTax * 0.10;
-  }
+    return totalTax * 0.1;
+  };
 
-  const calculateTotalprice = (orderIds : number[]) => {
+  const calculateTotalprice = (orderIds: number[]) => {
     if (!bill || productSelectedCount.length === 0) return 0;
 
-    const matchingItems = bill.orderItems.filter((item) => orderIds.includes(item.id));
+    const matchingItems = bill.orderItems.filter((item) =>
+      orderIds.includes(item.id)
+    );
 
-    let totalPrice : number = 0;
+    let totalPrice: number = 0;
     matchingItems.forEach((e) => {
       totalPrice += calculatedAmount(e.id, CalculateAmountType.PRICE);
     });
 
-    return totalPrice
-  }
-  
+    return totalPrice;
+  };
+
   const checkBoxChecked = (id: number): boolean => {
     const selectedPersonOrder = personOrder.find(
       (e: PersonOrder) => e.personName === selectedPerson
     );
     if (!selectedPersonOrder) return false;
 
-    const orderAvailable = selectedPersonOrder.orders.find(
-      (e) => e.id === id
-    );
+    const orderAvailable = selectedPersonOrder.orders.find((e) => e.id === id);
 
     if (orderAvailable) return true;
 
     return false;
   };
 
-  const checkBoxDisabled = (id: number): boolean => {
-    for (let i = 0; i < personOrder.length; i++) {
-      const idFinded = personOrder[i].orders.find(
-        (e) => e.id === id
-      );
-      if (idFinded && personOrder[i].personName !== selectedPerson)
-        return true;
-    }
-    return false;
-  };
+  // const checkBoxDisabled = (id: number): boolean => {
+  //   for (let i = 0; i < personOrder.length; i++) {
+  //     const idFinded = personOrder[i].orders.find((e) => e.id === id);
+  //     if (idFinded && personOrder[i].personName !== selectedPerson) return true;
+  //   }
+  //   return false;
+  // };
 
   if (fetchLoading) {
     return (
@@ -261,11 +260,10 @@ const index = () => {
                     <input
                       id="default-checkbox"
                       type="checkbox"
-                    
                       // disabled={checkBoxDisabled(orderItem.id)}
                       checked={checkBoxChecked(orderItem.id)}
                       onChange={(e) => {
-                        console.log(e.target.checked)
+                        console.log(e.target.checked);
                         if (e.target.checked) {
                           const newPersonOrder: PersonOrder[] = [];
                           personOrder.forEach((e: PersonOrder) => {
@@ -276,12 +274,14 @@ const index = () => {
                           });
                           setPersonOrder([...newPersonOrder]);
 
-                          const selectedProduct = productSelectedCount.find(item => item.id === orderItem.id);
+                          const selectedProduct = productSelectedCount.find(
+                            (item) => item.id === orderItem.id
+                          );
                           if (selectedProduct) {
                             selectedProduct.count += 1;
                           }
-                          setProductSelectedCount(prev => [...prev]);
-                          
+                          setProductSelectedCount((prev) => [...prev]);
+
                           return;
                         }
 
@@ -296,11 +296,13 @@ const index = () => {
                         });
                         setPersonOrder([...newPersonOrder]);
 
-                        const selectedProduct = productSelectedCount.find(item => item.id === orderItem.id);
+                        const selectedProduct = productSelectedCount.find(
+                          (item) => item.id === orderItem.id
+                        );
                         if (selectedProduct) {
                           selectedProduct.count -= 1;
                         }
-                        setProductSelectedCount(prev => [...prev]);
+                        setProductSelectedCount((prev) => [...prev]);
                       }}
                       className="w-4 h-4  text-blue-600 bg-gray-100 border-gray-300 rounded  focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                     />
@@ -367,27 +369,32 @@ const index = () => {
           </div>
         </div>
         <div className="w-full">
-          {personOrder.map((data : PersonOrder) => {
-
+          {personOrder.map((data: PersonOrder) => {
             const orderIds = data.orders.map((e) => e.id);
             return (
               <div className="">
                 <div className="mb-4 border-b-2 ">
                   <span className="font-bold">{data.personName}</span>
                 </div>
-            
+
                 <div className="divide-t-2 divide-dashed">
-                  {data.orders.map((order)=>{
+                  {data.orders.map((order) => {
                     return (
                       <div className="flex justify-between mb-4">
                         <div>
                           <span className="font-normal">{order.name}</span>
                         </div>
                         <div>
-                          <span>Rp.{calculatedAmount(order.id, CalculateAmountType.PRICE)}</span>
+                          <span>
+                            Rp.
+                            {calculatedAmount(
+                              order.id,
+                              CalculateAmountType.PRICE
+                            )}
+                          </span>
                         </div>
                       </div>
-                    )
+                    );
                   })}
 
                   <div className="flex justify-between mb-4">
@@ -403,12 +410,15 @@ const index = () => {
                       <span className="font-normal">Total</span>
                     </div>
                     <div>
-                      <span>Rp.{calculateTax(orderIds) + calculateTotalprice(orderIds)}</span>
+                      <span>
+                        Rp.
+                        {calculateTax(orderIds) + calculateTotalprice(orderIds)}
+                      </span>
                     </div>
                   </div>
                 </div>
               </div>
-            )
+            );
           })}
         </div>
         {/* <div className="w-full mt-5">
