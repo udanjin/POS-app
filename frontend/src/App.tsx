@@ -1,6 +1,4 @@
-import { RouterProvider } from "react-router-dom";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import routers from "./route";
 import Home from "./pages/public/home";
 import UploadProduct from "./pages/admin/product/UploadProduct";
 import Dashboard from "./pages/admin/Dashboard";
