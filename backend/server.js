@@ -5,7 +5,7 @@ const menuRoutes = require("./routes/menu");
 const orderRoutes = require("./routes/order");
 const transactionRoutes = require("./routes/transaction");
 const auth = require("./routes/auth");
-// const imagesRoutes = require('./routes/images');
+
 const path = require("path");
 
 const app = express();
@@ -32,7 +32,7 @@ app.use("/api/order", orderRoutes);
 app.use("/api/transaction", transactionRoutes);
 app.use("/api/auth", auth);
 
-  mongoose
+mongoose
   .connect(process.env.MONGO_URL, {
     // dns: '8.8.8.8'
   })
@@ -45,29 +45,5 @@ app.use("/api/auth", auth);
     console.log(error);
   });
 
-// const imageStorage = multer.diskStorage({
-//   destination: 'images', // Destination to store images
-//   filename: (req, file, cb) => {
-//     cb(null, file.fieldname + '_' + Date.now() + path.extname(file.originalname))
-//   }
-// });
-// const imageUpload = multer({
-//   storage: imageStorage,
-//   limits: {
-//     fileSize: 1000000 // 1 MB
-//   },
-//   fileFilter(req, file, cb) {
-//     // upload only image formats
-//     if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
-//       return cb(new Error('Please upload an image'))
-//     }
-//     cb(undefined, true)
-//   }
-// });
-// app.post('/upload-image', imageUpload.single('image'), (req, res) => {
-//   // req.file contains the uploaded image
-//   // req.body contains the entire request body
-//   res.send(`Image uploaded successfully!`);
-// });
 
-// const upload = multer({ dest: 'uploads/' });
+module.exports = app;
