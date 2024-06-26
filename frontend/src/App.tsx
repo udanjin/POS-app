@@ -1,6 +1,6 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Home from "./pages/public/home";
-import UploadProduct from "./pages/admin/product/UploadProduct";
+// import UploadProduct from "./pages/admin/product/UploadProduct";
 import Dashboard from "./pages/admin/Dashboard";
 import Login from "./pages/admin/Login";
 import Order from "./pages/admin/Order";
@@ -19,7 +19,6 @@ function App() {
     <Router>
       <Routes>
           <Route path="/:tableId" element={<Home />} />
-          <Route path="/admin/upload" element={<UploadProduct />} />
           <Route path="/:tableId/details/:id" element={<CardDetails />} />
           <Route path="/:tableId/cart" element={<Cart />} />
           <Route path="/:tableId/split" element={<SplitBill />} />
