@@ -13,7 +13,9 @@ const cors = require("cors");
 
 app.use("/images", express.static(path.join(__dirname, "uploads")));
 
-app.use(cors());
+app.use(cors({
+  origin:["https://pos-app-api-five.vercel.app"]
+}));
 //middleware
 app.use((req, res, next) => {
   console.log(req.path, req.method);
