@@ -40,10 +40,10 @@ const postTransaction = async (req, res) => {
         gross_amount: roundedValue,
       },
       callbacks: {
-        finish: `http://localhost:5173/order-status`,
-        error: ` http://localhost:5173/order-status`,
-        pending: `http://localhost:5173/order-status`,
-        close: `http://localhost:5173/order-status`,
+        finish: `http://localhost:3000/order-status`,
+        error: ` http://localhost:3000/order-status`,
+        pending: `http://localhost:3000/order-status`,
+        close: `http://localhost:3000/order-status`,
       },
     };
 
