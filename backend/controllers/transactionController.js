@@ -40,10 +40,10 @@ const postTransaction = async (req, res) => {
         gross_amount: roundedValue,
       },
       callbacks: {
-        finish: `http://localhost:3000/order-status`,
-        error: ` http://localhost:3000/order-status`,
-        pending: `http://localhost:3000/order-status`,
-        close: `http://localhost:3000/order-status`,
+        finish: `https://fe-pos-app.vercel.app/order-status`,
+        error: ` https://fe-pos-app.vercel.app/order-status`,
+        pending: `https://fe-pos-app.vercel.app/order-status`,
+        close: `https://fe-pos-app.vercel.app/order-status`,
       },
     };
 
