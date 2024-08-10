@@ -3,14 +3,15 @@ const mongoose = require("mongoose");
 const path = require("path");
 const multer = require("multer");
 const CountModel = require("../models/CountModel");
+const cloudinary = require("../config/cloudinary");
 
 const getMenus = async (req, res) => {
   const menus = await Menu.find({}).sort({ createdAt: 1 });
 
   try {
-    menus.forEach((menu) => {
-      menu.imgPath = `${req.protocol}://${req.get("host")}/${menu.imgPath}`;
-    });
+    // menus.forEach((menu) => {
+    //   menu.imgPath = `${req.protocol}://${req.get("host")}/${menu.imgPath}`;
+    // });
 
     res.status(200).json(menus);
   } catch (error) {
@@ -64,6 +65,28 @@ const createMenu = async (req, res) => {
     const imgPath = `images/${req.file.filename}`;
 
     const image = new Menu({ name, desc, price, imgPath });
+
+    await image.save();
+    res.status(201).send(`Image created successfully`);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(`Error creating image`);
+  }
+};
+
+const createMenuV2 = async (req, res) => {
+  try {
+    const { name, desc, price, } = req.body;
+    console.log(req.body);
+    const { imgPath } = req.body;
+    const filePath = req.file.path;
+    const cloudinary_res = await cloudinary.uploader.upload(filePath, {
+      folder: "/uploads",
+    });
+    const img = cloudinary_res.secure_url;
+
+    // const {imgPath} = req.body
+    const image = new Menu({ name, desc, price, imgPath:img });
 
     await image.save();
     res.status(201).send(`Image created successfully`);
@@ -175,5 +198,6 @@ module.exports = {
   // updateMenu
   updateProduct,
   getPopularMenu,
-  getNewMenu
+  getNewMenu,
+  createMenuV2
 };
