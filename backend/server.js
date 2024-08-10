@@ -19,6 +19,7 @@ app.use("/images", express.static(path.join(__dirname, "uploads")));
 app.use(cors({
   origin:["http://localhost:3000"]
 }));
+app.use(cors())
 //middleware
 app.use((req, res, next) => {
   console.log(req.path, req.method);
@@ -28,6 +29,7 @@ app.use((req, res, next) => {
 app.use(express.json());
 // app.use(cors());
 app.get("/", (req, res) => {
+  console.log(__dirname);
   res.json({ msg: "welkam" });
 });
 //routes
