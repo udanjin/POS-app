@@ -16,20 +16,20 @@ const {
   createMenuV2
 } = require("../controllers/menuController");
 // const upload = multer({ dest: './uploads' });
-// const storage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     // const base ='file:///D:/Skripsi/POS-app/backend'
-//     cb(null,path.join(__dirname, "uploads"));
-//     console.log(__dirname);
-//   },
-//   filename: (req, file, cb) => {
-//     cb(null, Date.now() + '-' + file.originalname);
-//   }
-// });
-// const upload = multer({ storage: storage });
-const upload = multer({ dest: 'uploads/' });
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    // const base ='file:///D:/Skripsi/POS-app/backend'
+    cb(null,path.join(__dirname, "uploads"));
+    console.log(__dirname);
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + '-' + file.originalname);
+  }
+});
+const upload = multer({ storage: storage });
+const uploads = multer({ dest: 'uploads/' });
 router.post("/upload",uploadImg);
-router.post("/v2",upload.single('imgPath'),createMenuV2)
+router.post("/v2",uploads.single('imgPath'),createMenuV2)
 router.post("/",upload.single('imgPath'), createMenu);
 // router.post("/upload",uploadImg);
 // router.post("/upload",upload)
