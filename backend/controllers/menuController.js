@@ -81,23 +81,42 @@ const uploadImg = async(req,res)=>{
 }
 const createMenuV2 = async (req, res) => {
   try {
-    const { name, desc, price, } = req.body;
+    const { name, desc, price } = req.body;
     console.log(req.body);
-    const { imgPath } = req.body;
-    const filePath = req.file.path;
-    const cloudinary_res = await cloudinary.uploader.upload(filePath, {
-      folder: "/uploads",
-    });
+
+    // Access the uploaded file buffer
+    const fileBuffer = req.file.buffer;
+
+    // Upload the file to Cloudinary using upload_stream
+    const cloudinaryUpload = () => {
+      return new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+          { folder: '/uploads' },
+          (error, result) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(result);
+            }
+          }
+        );
+
+        // Write the file buffer to the Cloudinary stream
+        uploadStream.end(fileBuffer);
+      });
+    };
+
+    const cloudinary_res = await cloudinaryUpload();
     const img = cloudinary_res.secure_url;
 
-    // const {imgPath} = req.body
-    const image = new Menu({ name, desc, price, imgPath:img });
+    // Create a new Menu entry
+    const image = new Menu({ name, desc, price, imgPath: img });
 
     await image.save();
-    res.status(201).send(`Image created successfully`);
+    res.status(201).send('Image created successfully');
   } catch (err) {
     console.error(err);
-    res.status(500).send(`Error creating image`);
+    res.status(500).send('Error creating image');
   }
 };
 

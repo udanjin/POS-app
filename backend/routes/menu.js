@@ -27,7 +27,8 @@ const storage = multer.diskStorage({
   }
 });
 const upload = multer({ storage: storage });
-const uploads = multer({ dest: 'uploads/' });
+const inMemoryStorge = multer.memoryStorage()
+const uploads = multer({ storage : inMemoryStorge})
 router.post("/upload",uploadImg);
 router.post("/v2",uploads.single('imgPath'),createMenuV2)
 router.post("/",upload.single('imgPath'), createMenu);
