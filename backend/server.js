@@ -11,7 +11,7 @@ const path = require("path");
 const app = express();
 const cors = require("cors");
 
-app.use("/images", express.static(path.join(__dirname, "uploads")));
+app.use("/images", express.static(path.join(__dirname, "./uploads")));
 
 app.use(cors())
 //middleware
