@@ -23,6 +23,7 @@ app.use((req, res, next) => {
 app.use(express.json());
 // app.use(cors());
 app.get("/", (req, res) => {
+  console.log(__dirname);
   res.json({ msg: "welkam" });
 });
 //routes
