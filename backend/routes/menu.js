@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const path = require("path");
 const multer = require("multer");
 const {
   createMenu,
@@ -16,7 +17,7 @@ const {
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     // const base ='file:///D:/Skripsi/POS-app/backend'
-    cb(null,'./uploads');
+     cb(null,path.join(__dirname, "../uploads"));
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + '-' + file.originalname);
