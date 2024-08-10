@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Sidebar from "../../../Components/Sidebar";
 import NavbarTop from "../../../Components/NavbarTop";
 import axiosInstance from "../../../axiosConfig";
@@ -13,7 +13,7 @@ interface MenuDetails {
   imgPath: string;
 }
 
-const index = () => {
+const Index = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [isUpdateOpen, setIsUpdateOpen] = useState(false);
@@ -29,6 +29,7 @@ const index = () => {
   const [refresh, setRefresh] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handlePageChange = (newPageNumber: number) => {
     setCurrentPage(newPageNumber);
@@ -79,21 +80,33 @@ const index = () => {
     setImage(e.target.files?.[0]);
   };
 
+  // const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const file = e.target.files?.[0];
+  //   if (!file) return;
+
+  //   var reader = new FileReader();
+  //   reader.onloadend = function () {
+  //     setImage(reader.result as string);
+  //   };
+
+  //   reader.readAsDataURL(file);
+  // };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!image) {
       // setStatus("Please select an image to upload");
       return;
     }
-
     const formData = new FormData();
     formData.append("name", name);
     formData.append("desc", description);
     formData.append("price", price ? price.toString() : "0");
     formData.append("imgPath", image);
 
+
     axiosInstance
-      .post("http://localhost:4000/api/menu", formData, {
+      .post("http://localhost:4000/api/menu/v2", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -115,21 +128,18 @@ const index = () => {
         setName("");
         setDescription("");
         setPrice(null);
-        const fileInput = document.getElementById(
-          "fileInput"
-        ) as HTMLInputElement;
-        fileInput.value = "";
-
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+        } else {
+          console.error("fileInput element not found");
+        }
         setImage(undefined);
       });
   };
 
   const handleUpdateProduct = async (e: any) => {
     e.preventDefault();
-    if (!image) {
-      // setStatus("Please select an image to upload");
-      return;
-    }
+    
     if (!selectedMenu) return;
 
     const id = selectedMenu?._id;
@@ -352,6 +362,7 @@ const index = () => {
                         className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                         id="file_input"
                         type="file"
+                        ref={fileInputRef}
                         onChange={handleFileChange}
                       />
                     </div>
@@ -516,7 +527,7 @@ const index = () => {
                           className="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
                           role="alert"
                         >
-                          <span className="font-medium">Product Added</span>
+                          <span className="font-medium">Product Updated</span>
                         </div>
                       )}
                       {fail && (
@@ -525,7 +536,7 @@ const index = () => {
                           role="alert"
                         >
                           <span className="font-medium">
-                            Failed to Add Product
+                            Failed to Update Product
                           </span>
                         </div>
                       )}
@@ -754,4 +765,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;

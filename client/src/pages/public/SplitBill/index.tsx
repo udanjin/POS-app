@@ -56,7 +56,7 @@ interface ProductSelectedCount {
   count: number;
 }
 
-const index = () => {
+const Index = () => {
   const tableId = localStorage.getItem("tableId");
   const [bill, setBill] = useState<Bill | null>(null);
   const [selectedPerson, setSelectedPerson] = useState<string>("");
@@ -168,7 +168,7 @@ const index = () => {
       totalTax += calculatedAmount(e.id, CalculateAmountType.TAX);
     });
 
-    return totalTax * 0.1;
+    return totalTax;
   };
 
   const calculateTotalprice = (orderIds: number[]) => {
@@ -429,4 +429,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;
