@@ -4,11 +4,9 @@ const path = require("path");
 const multer = require("multer");
 const CountModel = require("../models/CountModel");
 const cloudinary = require("../config/cloudinary");
-const cloudinary = require("../config/cloudinary");
 
 const getMenus = async (req, res) => {
   const menus = await Menu.find({}).sort({ createdAt: 1 });
-
   try {
     // menus.forEach((menu) => {
     //   menu.imgPath = `${req.protocol}://${req.get("host")}/${menu.imgPath}`;

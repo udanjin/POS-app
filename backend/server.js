@@ -45,7 +45,7 @@ mongoose
   })
   .then(() => {
     app.listen(process.env.PORT, () => {
-      console.log("listen asddsa");
+      console.log("listen 4000");
     });
   })
   .catch((error) => {
