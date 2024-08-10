@@ -8,9 +8,9 @@ const cloudinary = require("../config/cloudinary");
 const getMenus = async (req, res) => {
   const menus = await Menu.find({}).sort({ createdAt: 1 });
   try {
-    menus.forEach((menu) => {
-      menu.imgPath = `${req.protocol}://${req.get("host")}/${menu.imgPath}`;
-    });
+    // menus.forEach((menu) => {
+    //   menu.imgPath = `${req.protocol}://${req.get("host")}/${menu.imgPath}`;
+    // });
     
 
     res.status(200).json(menus);
