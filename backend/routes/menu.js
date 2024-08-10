@@ -16,7 +16,7 @@ const {
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     // const base ='file:///D:/Skripsi/POS-app/backend'
-    cb(null,'./upload');
+    cb(null,'./uploads');
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + '-' + file.originalname);
